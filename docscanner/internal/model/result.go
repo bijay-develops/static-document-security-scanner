@@ -1,6 +1,6 @@
 package model
 
-// ScanResult represents the result of a document scan.
+// ScanResult represents the result of a document scan.  -- Core Data Model
 type ScanResult struct {
 	FilePath string `json:"file_path"`
 	FileType string `json:"file_type"`
