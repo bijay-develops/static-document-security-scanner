@@ -11,7 +11,7 @@ import (
 	"docscanner/internal/model"
 )
 
-type WordAnalyzer struct {}
+type WordAnalyzer struct{}
 
 func (w *WordAnalyzer) Supports(fileName string) bool {
 	ext := strings.ToLower(filepath.Ext(fileName))
@@ -26,7 +26,7 @@ func (w *WordAnalyzer) Analyze(filePath string, data []byte) (*model.ScanResult,
 	}
 
 	indicators := []string{}
-	for _, file := range zr.File {
+	for _, f := range zr.File {
 		if strings.Contains(strings.ToLower(f.Name), "vbaproject.bin") {
 			indicators = append(indicators, "Embedded VBA MAcro (vbaProject.bin)")
 			break
@@ -42,11 +42,10 @@ func (w *WordAnalyzer) Analyze(filePath string, data []byte) (*model.ScanResult,
 	}
 
 	return &model.ScanResult{
-		FilePath: filePath,
-		FileType: "word",
-		SHA256: hex.EncodeToString(hash[:]),
+		FilePath:   filePath,
+		FileType:   "word",
+		SHA256:     hex.EncodeToString(hash[:]),
 		Indicators: indicators,
-		RiskScore: risk,
+		RiskScore:  risk,
 	}, nil
 }
-
