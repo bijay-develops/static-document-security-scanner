@@ -21,3 +21,17 @@ type Analyzer interface {
 - The worker pool only depends on the interface, so adding new analyzers does not change concurrency code.
 
 <i>We can plug in Excel, PowerPoint, archives, binaries—anything—behind this interface.</i>
+
+### Where the interface is used
+
+```text
+main.go
+	└─ builds []Analyzer { WordAnalyzer, PDFAnalyzer, ... }
+			 ↓
+StartWorkerPool (workerpool.go)
+	└─ receives []Analyzer and, for each file:
+				├─ a.Supports(file)
+				└─ a.Analyze(file, data) → *ScanResult
+```
+
+The rest of the system (CLI, worker pool, directory walker) only knows the `Analyzer` interface, not concrete implementations. This keeps code structure simple and makes it obvious where to plug in new behavior.
