@@ -7,6 +7,6 @@
 
 - No analyzer should know about directory walking.
 - No walker should know about PDF heuristics.
-- No worker should know about risk scoring logic details.
+- No worker should know about JSON formatting or CLI specifics.
 
 <i> That separation is what keeps systems from turning into spaghetti. </i>

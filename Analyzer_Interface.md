@@ -1,9 +1,23 @@
-` internal/analyzer/analyzer.go `
+`docscanner/internal/analyzer/analyzer.go`
 
-### Design decision:
+### Interface
 
-- Supports() allows extensibility
-- Analyze() receives raw bytes
-- Analyzer returns structured result
+```go
+type Analyzer interface {
+	Supports(filename string) bool
+	Analyze(filepath string, data []byte) (*model.ScanResult, error)
+}
+```
 
-<i>We can plug in Excel, PowerPoint, ELF, anything later.</i>
+### Design decisions
+
+- `Supports` decides, based on filename/extension, whether this analyzer owns the file.
+- `Analyze` receives the full file contents as a `[]byte` plus the path.
+- Each analyzer returns a `*model.ScanResult` describing its findings.
+
+### Extensibility
+
+- New analyzers live in `internal/analyzer/` and implement this interface.
+- The worker pool only depends on the interface, so adding new analyzers does not change concurrency code.
+
+<i>We can plug in Excel, PowerPoint, archives, binaries—anything—behind this interface.</i>
