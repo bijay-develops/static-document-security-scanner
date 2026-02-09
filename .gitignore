@@ -1,2 +1,4 @@
 /samples/*.docx
 /samples/*.pdf
+
+/docscanner/results.json
